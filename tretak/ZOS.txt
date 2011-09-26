@@ -1,0 +1,170 @@
+handly
+
+===============================================================================
+
+streamy (C)
+
+GNU C library, kapitola streamy
+
+stdout, stdin, stderr 
+    -- standardnì v tabulce handlù na 0,1,2
+    
+low level input,output funkce
+    -- další kapitola v GNU C
+    -- pracují s handly
+    -- prakticky ve všech jazycích jsou podobné (C++, skripty...)
+    
+    -- input, output, read, writeln, file...
+    -- obèas problémy s bufferováním výstupu - psát ideálnì jen jedním handlem..
+    
+    -- bloodshedSoftware - jednoduchý gcc editor
+    
+    
+------------------------------------------------------------------------------
+
+PROCESY, THREADY:
+
+    -- prakticky už se dnes nikdy nesetkáme s pøístupem do pamìti systému
+    
+linux:
+    -- int fork()
+        -- parent dostane id child procesu, child dostane 0
+        -- naklonuje proces -- není to de facto nový proces
+        
+    -- exec("proces")
+        -- nahradí pùvodní proces novì spuštìným
+        
+    -- tzn vìtšinou fork() a v child zavolat exec()
+    
+win:
+    -- system() -- odpovídá fork-exec
+    -- CreateProcess(...)
+        -- vznikne nový proces s primárním vláknem
+        -- v posledním parametru vrací handle na vytvoøený proces a thread
+            a jejich id (LPPROCESS_INFORMATION)
+        -- par inheritHandle
+            -- jeslti má dìdit handly, nebo ne (komunikující programy)
+
+-------------------------------------------------------------------------------
+
+POKRAÈOVÁNÍ
+
+kopírování handlù - dup, dup2, DuplicateHandle -- msdn
+
+handle sámo od sebe
+    -- GetCurrentProcess/Thread
+        -- nemusíme uklízet
+        -- nevrací skoteèný handle, ale nìco jako -1,-2 a win ví, že pokud
+          dostane takové èíslo jako handle, je znamená to, že se jedná o 
+          volající proces
+
+zpomalení, resume
+    -- SuspendThread -- zahibernuje vlákno - jiné na nìj pak musí zavolat
+      ResumeThread
+    -- sleep(NULL) - dobrovolnì se vzdá øízení, jen než na nìj pøíštì v m-tasku
+      opìt pøijde øada. Jinak se místo NULL
+      
+slušné jednání
+    -- CloseInfo -- zavøe objekt v jádøe (?)
+    -- CloseHandle ...
+        
+THREADY
+
+komunikace
+    -- atomické instukce - je jisté, že instrukce se provede naráz, není možné
+      aby si jiné vlákno pøeèetlo polovièatou hodnotu
+      
+      
+==============================================================================
+
+THREADY
+
+èasté pøepínání = znaèný overhead
+
+Core object
+    -- handle
+    -- ESP ? -- flagy... návratová adresa 
+    -- context ? -- uložené registry, zásobní?
+
+CreateThread
+    -- vrací handle na vytvoøený thread
+    -- možnost CREATE_SUSPENDED, musím ho pak rozbìhnout ResumeThread
+    -- pozor na race-condition
+    -- použití semaforù, èekání vláken na sebe
+    -- MSDN!!
+    -- priority - radìji opatrnì...
+    
+sdílení pamìti
+    -- pointery o kterých ví jako thread jako funkce jsou mu pøístupné
+    -- tzn. sdílené promìnné nemusí být globální
+    -- semafory -- studovat
+    -- nutné vlastní øešení pøístupu k pamìti
+
+------------------------------------------------------------------------------
+
+KRITICKÉ SEKCE PROGRAMU, VÍCE VLÁKEN  
+
+    -- pøerušení poruší konzistenci dat
+    -- používání atomckých instrukcí
+    -- vstupy do kritických sekcí (nastavení pøíslušných ochran)
+        -- využití atomických instrukcí - žádné jiné cokoliv je nenaruší
+        -- peterson algorithm -- 2 vlákna: jakékoliv støídání vláken nezpùsobí 
+           vstup obou do kritické sekce
+    
+    -- semafory -- Dijstkra
+        -- Down - pøi vstupu do sekce
+        -- Up - pøi odchodu
+        -- obsahují èítaè, který povolí pøíslušnému poètu vláken vstup
+        -- samotný semafor je krátká kritická sekce (vždy souèasnì mùže
+           procházet pouze jedno vlákno)
+
+===============================================================================
+
+DISKY
+
+dnes už se nestaráme o fyzické umístìní dat na disku,
+ale jen o èíslo sektoru
+
+sektor
+    -- redundance
+        -- opravy chyb, kontrolní souèty
+        -- data
+    -- malé soubory se rùznì kombinují do jednoho sektoru
+    
+cluster/blok
+    -- nìkolik sektorù za sebou
+    -- první: master boot record
+    -- dùležité zarovnávání (pøi vìtších sektorech)
+    
+extended partition
+    -- na zaèátku obsahuje mbr a odkaz na další extended partition
+    -- chová se jako spojový seznam
+    
+FAT
+    -- 2 tabulky, rootdir, data
+    -- Fat1 tabulka
+        -- udává pro každý blok èíslo následujícího bloku (1-8KB) (blok
+            zaèátku souboru si pøeèteme v rootdir)
+    -- delší jména - mezidobí (bordel...)
+    
+NTFS
+    -- v rootdir budou vìtší bloky, políèka promìnlivé délky
+    -- soubory budou mít více streamù (jméno, oprávnìní, data)
+    
+jak øeší systém více souborových systémù
+    -- moduly
+    -- uvnitø systému používá virtuální, svùj, FS
+    -- každý soubor/FS mám u sebe metody read, write..
+        -- pak se podle handlu souboru zjistí, ve kterém FS
+            soubor leží a zavolá se pøíslušná fce
+    -- FUSE - virtuální uživatelský FS pro psaní vlastních pøístupù
+    
+    
+===============================================================================
+
+VIEW OF FILE
+
+    - najít
+    - file mapping
+    - CreateFileMapping
+    - MapViewOfFile

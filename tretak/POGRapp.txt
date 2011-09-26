@@ -1,0 +1,119 @@
+try{
+				out = static_cast<Bitmap^>(im->Clone());
+			 }catch(...){return;}
+			 //catalogize colors
+
+			 int w,h, RGBSpace[16][16][16];		//floored shrinked color space for gauging
+			 List<ColSpaceElem^>^ cat = gcnew List<ColSpaceElem^>();			//catalogue
+			 ColSpaceElem^ dummy = gcnew ColSpaceElem();
+			 int catSize,x,y;
+			 char percent;
+			 String ^catal("Creating color catalog... ");
+			 w = out->Width;
+			 h = out->Height;
+			 cat->Clear();
+			 memset(RGBSpace,0,sizeof(RGBSpace));//clear gauging space
+
+			 for(x=0; x<w; x++){				//feed picure into catalog and gauging RGBSpace
+				 for(y=0; y<h; y++){
+					 (*dummy) = out->GetPixel(x,y);
+					 catSize = cat->Count;
+					
+					 for(int i=0;i<catSize;i++){//use cnt as 'found' flag
+												//find color in catalogue
+						 if(cat[i] == dummy){	//color is already in catalog
+							(cat[i]->cnt)++;
+							dummy->cnt = 0;
+							break;
+						 }
+					 }
+					 RGBSpace[dummy->r/16][dummy->g/16][dummy->b/16]++;
+
+					 if(dummy->cnt == 1){		//no yet in catalog
+						 cat->Add(gcnew ColSpaceElem(dummy));
+					 }
+					 /*percent = (float)((x+1)/w)*100;
+					 info->Text = catal + percent + "%";
+					 info->Invalidate();*/
+				 }
+			 }
+			 
+			 //create first gauge of palette
+			 int maxColors = System::Decimal::ToInt32(numericUpDown1->Value);
+			 int usedColors = 0,i,j,k,l;
+			 int colorsInCube=0;
+			 List<ColSpaceElem^>^ palette = gcnew List<ColSpaceElem^>();
+
+			 catSize = cat->Count;
+			 palette->Clear();
+				//spread palette colors around colors most used in image
+
+			 for(i=0;i<16;i++)
+				 for(j=0;j<16;j++)
+					 for(k=0;k<16;k++){
+						 colorsInCube = floor(maxColors*(((float)RGBSpace[i][j][k])/catSize));
+						 for(l=0;l<colorsInCube;l++){
+							 palette->Add(
+								 gcnew ColSpaceElem(i*16 +(unsigned long)rand()*16/RAND_MAX,
+								 j*16 +(unsigned long)rand()*16/RAND_MAX,
+								 k*16 +(unsigned long)rand()*16/RAND_MAX)
+								 );
+							 usedColors++;
+						 }
+					 }
+				//colors which are left spread randomly
+
+			 for(;usedColors<maxColors;usedColors++){
+				 palette->Add(
+					 gcnew ColSpaceElem((unsigned long)rand()*256/RAND_MAX,
+					 (unsigned long)rand()*256/RAND_MAX,
+					 (unsigned long)rand()*256/RAND_MAX)
+					 );
+			 }
+
+			//=====================================================================	
+				//initialize array of mass centers for vactor quantization
+			 List<MassCentrum^> ^mc = gcnew List<MassCentrum^>();
+			 float minDist;
+			 int palIndex;			//determine closest color in the palette
+			 for(i=0;i<maxColors;i++)
+				 mc->Add(gcnew MassCentrum());
+
+			 //while(...)   iterations
+			 for(i=0;i<catSize; i++){
+					//find closest palette color for each catalog entry
+				 minDist = 1000;
+				 for(j=0;j<maxColors;j++){
+						//find minimum distance
+					 if(L2dist(palette[j],cat[i],&minDist)) palIndex = j;
+				 }
+					//now we have closest palette element to ith catalog color
+					//update mass center of this palette color
+				 mc[palIndex]->UpdateCentrum(cat[i]->r,cat[i]->g,cat[i]->b,cat[i]->cnt);
+			 }
+				//move palette colors to new positions
+			 for(i=0;i<maxColors;i++){
+				 palette[i]->r = mc[i]->posr;
+				 palette[i]->g = mc[i]->posg;
+				 palette[i]->b = mc[i]->posb;
+			 }
+
+			 //============================================================
+				//modify image
+
+			 Color ^newColor;
+			 for(x=0; x<w; x++){				
+				 for(y=0; y<h; y++){
+						//find closest palette entry for each pixel
+					 (*dummy) = out->GetPixel(x,y);
+					 minDist = 1000;
+					 for(j=0;j<maxColors;j++){
+						 if(L2dist(palette[j],dummy,&minDist)) palIndex = j;
+					 }	
+						//alter pixels color
+					 newColor = Color::FromArgb(palette[palIndex]->r,
+						 palette[palIndex]->g,palette[palIndex]->b);
+					 out->SetPixel(x,y,*newColor);
+					 delete newColor;
+				 }
+			 }

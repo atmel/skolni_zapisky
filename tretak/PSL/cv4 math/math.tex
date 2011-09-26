@@ -1,0 +1,54 @@
+\documentclass{article}
+
+\usepackage[cp1250]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[IL2]{fontenc}
+
+\renewcommand{\d}{\: \mathrm{d}}  %vzprimeny rez
+
+\usepackage{amsmath}
+
+\begin{document}
+
+\[ %\substack{p_1<p_2<\\<...<p_n}
+\sum_{p_1<p_2<...<p_n}^{\{1,2,...,n\}}
+\begin{vmatrix}
+1&2&3&4\\
+5&6&7&8\\
+p_1&p_2&p_3&p_4
+\end{vmatrix}
+\]
+
+\begin{align}
+\intertext{Objem tìlesa}
+V&=\int_V \d v & &=\iiint \d x \d y \d z & &=\iiint \rho \d x \d \phi \notag \\
+&              & &             & &=\iiint r^2 \sin\theta \d r\d\theta \d\phi
+\intertext{Setrvaèný moment tìlesa}
+I_S &= \int_V \rho^2 \d v &&=\iiint (z^2+y^2) \d x \d y \d z
+                       &&=\iiint \rho^2 \d z \d\rho \d\phi \notag \\
+&              & &     &&=\iiint r^4 \sin^2\theta \d r\d\theta \d\phi
+\end{align}
+
+\[
+\begin{aligned}
+\chi &= chi\\
+\psi &= psi\\
+\omega&= omega
+\end{aligned}
+\qquad
+vs\qquad
+\begin{aligned}[t]
+\chi &= chi\\
+\psi &= psi\\
+\omega&= omega
+\end{aligned}
+\qquad
+vs\qquad
+\begin{aligned}[b]
+\chi &= chi\\
+\psi &= psi\\
+\omega&= omega
+\end{aligned}
+\]
+
+\end{document}

@@ -1,0 +1,39 @@
+asynchronní spouštìní?
+
+-- grid jen 2D, 3D ètvercovı/krychlovı --> je pøevody 2D/3D
+
+-- pouívat návrhové vzory?..
+-- hodnì èistı kód 
+
+-- øešení dimenze:
+	-- nakonec to bude runtime, nebo se to bude zadávat do config souboru
+	-- grid bude obsahovat i uiteèné informace jako rozmìry/uspoøádání obrázku (pro rychlejší 
+	   pøístup pøi hledání sousedù)
+	-- kernel dostane jako parametr poèet sousedù, fci GetAdjacent(...) pøedá  kolikátého souseda 
+	   chce s odkazem na strukturu v konstantní pamìti, kde jsou uleny informace o obrázku a gridu
+	   (fce obsahuje nìjakı switch na rùzné gridy - mohou bıt i rùzné ve 3D..)
+
+poznámky k tvorbì kódu:		---------------------------------------
+
+	- pøeèíst si základní návrhové vzory
+	- napø. factory method by mohla bıt vyuívána celkem èasto
+	- pro globální nastavení (CUDA enviroment, konzole...) pouívat static metody, pøípadnì 
+	  celé pøedky
+	- vyuívat dìdiènost (pro další rozšiøitelnost)
+	- vyuít UML pro pøehlednı návrh (proèíst i nìjakou metodologii?)
+
+
+co to bude umìt:		---------------------------------------
+
+NE:
+	- více GPU (zatím/konzultace) - problémy se sousedy, nutné device-device kopírování po pouití
+	  kadého filtru
+
+	- více gridù (pouze krychlovı 2D/3D - nutné pozmìnit celou knihovnu Obr.h)
+
+	- nìjakı mód, kde se jen pustí filtr na obrázek a ten se uloí
+
+ANO:
+	- ukládání aktuálního nastavení filtrù do pojmenovaného config-file
+
+	- uloení aktuálního vyfiltrovaného obrázku

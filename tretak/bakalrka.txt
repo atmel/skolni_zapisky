@@ -1,0 +1,54 @@
+kukal - jak by mìla vypadat aplikace
+	data na testování
+	pøedstava
+
+
+CPU, testovat, odladit
+napsat kus textu
+sepsat kus fuzzy filtrù
+
+dát dohromady soupis modulù.
+
+interaktivita skoro ádná!!
+
+
+Otázky na Oberhubera:
+
+-- vıhodnìjší pøedávat vìtší strukturu jako parametr, nebo jí nakopírovat do const memory a pøedat 
+   jen ukazatel na ní
+
+INTERFACE:
+
+4.2.11 -- aliasy u obrázkù pro pohodlnìjší manipulaci. budou se však øešit v Main manageru, nebo se mohou
+		mìnit (šetøení pamìtí): alias [index] [name], rename [old alias] [new alias] 
+
+KROKY:		----------------------------
+
+-- znovu projet kapitoly z OpenGL a CUDY (konst pamì, CUDAarray)
+
+-- kreslení bitmap v OpenGL!! - nejjednodušší (342 Opengl Programming guide)
+
+-- napsat jednoduchı kód na OpenGL interoperabilitu a ujistit se, e dokonale funguje (kvùli
+	testování vıstupu)
+
+TIPY:
+
+-- CUDA/CPU parametry pøedáva a vracet jako union(CUDA par, CPU par)
+	-- z pohledu vnìjších fcí pak bude jedno s èím pravujeme - uvitø si jen kouknou na flag CUDAenabled 
+
+-- jako tøídící algoritmus pouít heapsort?
+	-- pøi bublání nahoru má jen jeden code-path, kterı akorát pokadé jindy skonèí (dítì má jednoznaèného
+	   pøedka. Pøi bublání dolù se to binárnì vìtví. Tam by se ale mohly pouít __syncthreads()
+
+
+POZNAMKY
+
+----- 4 druhy edge operátorù -- co jsem tím myslel??
+
+----- filter manager cpe do parametrù fcí rovnou ukazatel na CPU pole, nebo CUDA referenci na pole na GPU
+
+
+ZDROJE:
+
+Analyze 7.5 format: 
+http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm

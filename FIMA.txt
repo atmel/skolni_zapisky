@@ -1,0 +1,72 @@
+FIMA
+
+jan.hora@axa.cz !!
+
+- životní pojištění
+- neživotní pojištění
+- finanční matematika
+
+Demografie 
+
+Pravděpodobnost úmrtí -- q
+
+    -- věk
+    -- životospráva
+        -- třídy nebezpečnosti:
+            1.
+            2. dva ze tří rizikových faktorů (nadváha, alkohol, kouření) 
+                1,25q
+            3. vysoký tlak...
+                1,75q (např.)
+            ...
+            ... 6q
+    -- rizikové sporty, nemoci z povolání
+    -- pohlaví -- až do dnes se používá -- EU to zakazuje, strašně se to řeší
+    
+my budeme řešit hlavně věk - pravděpodobnost úmrtí v závislosti na věku, roční
+
+VĚK
+
+q_x - pravděodobnost úmrtí x-leté osoby
+
+k_p_x - p, že x-letá osoba přežije násl. k let
+
+předpoklady:
+    
+    q_x + p_x = 1
+    
+    nezávislost -- n_p_x * m_p_(x+n) = (m+n)_p_x
+
+    linearita jednoročního předpokladu (je to nejjednodušší)
+    u < 1  --->  u_q_x = u * q_x
+    
+Populace:
+
+l_0 ... zpravidla 100 000
+l_1 = l_0 * 1_p_0
+...
+d_n = l_n - l_(n+1)
+
+různé pohledy:
+
+    lineární -- l_n = (w-n)/w * l_0  ... samozřejmě neplatí
+    složitější (30-80 let) -- l_k = l_0 * a^k * b^(c^k)
+    
+úmrtnost (q_x):
+    
+    vyšší kojenecká
+    minimum 7-12 let
+    lok. max 23-25 let -- "testosteronová demence"
+    pak pokles a "rozumný růst"
+
+počet umrajících (d_x)
+    
+    víc kojenců, pak pokles
+    stoupá cca do 67 (stabilní v celém 20. st)
+    pak pokles (málo lidí)
+    
+dožití:
+    cvičení je spekultivní, co se délky týče
+    střídmost rozhodně pomáhá
+    kastrace    
+    

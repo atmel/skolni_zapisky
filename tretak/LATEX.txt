@@ -1,0 +1,578 @@
+test na posledním cviku:
+  vysázet zadanı dokument (A4), nebo kus bakaláøky/jiné práce
+  
+web: linux.fjfi.cvut.cz/~ampy
+  
+poèítaèová typografie
+
+Latex - vytvoøen Knuthem (jádro, tex 1978)
+
+TeX
+  je pouze "typograf" -> hezké vysázení
+  design se musí naprogramovat
+  zmraen v 1990 (vıvoj, ne oprava chyb)
+  znaèkovací jazyk, kompilovanı
+
+1985 - první LaTeX - balík, kterı se stará o design (spousta maker)
+  nutná znalost balíku, spousta problémù je u vyøešenıch
+  problém je zmìna pøipraveného balíku - TeX
+  zakonzervován v 2.09, smìøuje se k LaTeX 3
+  dnes LaTeX 2?
+  
+  
+Dokumenty v LaTeXu
+
+  nejlepší sazba matematiky (i oproti komerèním)
+  pro prostı text staèí pár pøíkazù
+  
+  pomùcky:
+    -- textovı editor... 
+          WinEdit (shareware)
+          TechnicCenter
+    -- .tex/.ltx (mùe bıt jakákoliv)
+    -- kompilace: "latex soubor.tex" -> soubor.dvi (device independent)
+    -- pak tøeba do PostSkriptu: "dvips soubor.ps" -> soubor.ps
+    -- "ps2pdf soubor.ps" -> soubor.pdf
+    
+    -- nebo "pdflatex soubor.tex" -> soubor.pdf 
+          nevıhody - grafika, nemonost rychlého zpìtného vyhledávání z dvi
+          
+          
+  dokument:
+    pøíkaz (3 typy):
+        \_______[volitelné par,...]{par1}{par2}...
+        # $ % ^ & ~ _ { } jednoznakové - tisk pøes zpìtné lomítko
+            % je øádkovı komentáø
+            ~ nedìlitelná mezera
+        \~ \^ je však diakritika! (\v háèek \' èárka)
+      
+        -- hvìzdièková forma - mìní chování pøíkazù
+        -- jinak nerozpoznatelné pøíkazy (\v) seerou i mezeru za sebou
+        -- vyznaèení bloku {} - oznaèí rozsah platnosti: {\v} nepotøebuje 
+        -- \ je normální mezera 
+        
+    prostøedí:
+        \begin{prostredi}
+            Ovlivnìná oblast
+        \end{prostredi}
+      
+    -- libovolnı poèet mezer = jedna mezera
+    -- mezera na zaèátku øádku = ádná mezera
+    -- prázdnı øádek = novı odstavec
+    
+    -- pomlèka: nìkolik typù
+        -- spojník "bylo-li" v LaTeXu normálnì bylo-li
+        -- rozsah 6-19, leden-bøezen, sází se pomocí -- bez mezer kolem
+        -- interpunkèní pomlèka (nejdelší), sazba ---
+    
+    základní struktura:
+      \documentclass{article/report/book}
+      \begin{document}
+      \end{document}
+    
+    
+===============================================================================
+
+DRUHÁ HODINA
+
+co nacpat mezi \documentclass a samotnı dokument
+
+    -- preamble
+        -- definice vlastních pøíkazù
+        -- drobné úpravy definic documetclass
+        
+    -- usepackage
+        -- [czech]{babel}
+            -- lokalizace standardních pøíkazù (\today, vıpis literatury)
+            -- 
+        -- [xxx]{inputenc}
+            -- kódování vstupu
+            -- cp1250 - windows
+            -- latin2 - starší, standardizovanı
+            -- utf8 - linux, ne všude, doinstalace
+        -- [xxx]{fontenc}
+            -- kódování fontù 
+            -- T1 -- obecnı 8bit nadnárodní font (háèky nìjak...odsazuje ï)
+                  -- napø. anglickı text, obèas potøebuji èeské jméno
+            -- IL2 -- jako T1, ale lépe vypadá 
+        -- pozdìjší balíèky mají vìtší váhu (pøedefinují ty pøedchozí obèas)
+        
+
+volitelné parametry \documentclass
+    -- základní velikost písma (10pt,11pt(nejlépe),12pt) - od ní se škálují 
+        automaticky velikosti nadpisù atd...
+    -- a4paper, lettepaper(default) - formát papíru
+    -- oneside, twoside - jak se bude tisknout -> záhlaví, zápatí, okraje
+        -- article - oneside, book - twoside (default)
+    -- final, draft - verze
+        -- draft 
+            -- nevkládá obrázky, jen na nì nechá místo a rámeèek (døíve 
+                pøeklad), parametr pøedá všem balíèkùm, které ho zpracují
+            -- zvırazní pøeteèení textu (divné øádkové zlomy...)
+        -- final (default)
+        
+øešení špatného dìlení slov
+    -- \- v místì dìlení
+    -- \hyphenation{èer-ve-ná FORTRAN} 
+        -- v hlavièce, kde mùe dané slovo dìlit, napø. FOTRAN nikde nerozdìlí
+        
+strukturování vısledného dokumentu
+    -- (kapitoly, podkapitoly...)
+    -- \chapter{title}, \section{}, \subsection{}, \subsubsection
+        -- samo øeší velikost, odsazení, èíslování, mezery...
+        -- chapter jen report a book
+        -- v book nemá subsubsection èíslo (jen 3 úrovnì èíslování)
+    -- \paragraph{title}
+        -- jen tuènì zvırazní title, ale dá ho jako trochu odsazenı 
+            zaèátek textu
+    -- nutí k dobré struktuøe, samo se hezky stará o èísla...
+    
+    -- LaTeX se sám stará o obsah
+        -- \tableofcontents
+        -- dá se vnutit \newpage
+        -- nutnı dvojí/trojí pøeklad (co pøeklad, to prùchod dokumentem)
+            -- pøi prvním pøekladu si do .aux ukládá extra vìci, jako napøíklad
+                pøíprava obsahu (v .toc)
+            -- 2 pøeklad -> .toc vysází
+        -- v pøípadì dlouhého nadpisu, kterı by se zalomil, je vhodné zavést
+            alternativní nadpis do volitelného parametru chapter/section/...
+        -- ohvìzdièkované chapter/section... to neoèísluje a nezaøadí do
+            tableofcontents
+        -- zaøazení èehokoliv do tableofcontents
+            -- \addcontentsline{toc (do èeho)}{section (úroveò)}{ (co)}
+            
+Editory
+
+    -- winshell
+    -- winedt
+    -- led (zkusit)
+    -- en wiki latex - porovnání editorù
+    
+Literatura
+
+    -- the not so short introduction to latex
+    
+==============================================================================
+
+PREAMBLE: zmìny délek:
+    -- \setlength{jméno dél. registru}{nová hodnota}
+    -- \addtolength{...}{o kolik}
+    
+    -- pø. zmenšení okrajù (absurdnì velké)
+        -- \textwidth, \textheight -- levı horní roh se nehne
+        -- \hoffset, \voffset -- pohyb l.h.rohu
+        
+vkládání mezer do textu:
+    -- \hspace{kolik} \vspace{kolik}
+        -- od zaèátku stránky ne - pøed pøíkazem "nic není"
+        -- to samé od boku stránky
+    -- \vspace*{...} -- "akceptuji zaèátek stránky jako nìco", tzn odsadí
+    
+neodsazení zaèátku konkrétního odstavce:
+    -- \noindent  (bez parametrù)    
+
+gumová mezera:
+    -- \h(v)space{\fill} -- maximální moná mezera 
+    -- hspace{\stretch{2}} bla \hspace{\stretch{1}}   -- první mezery budou 2:1
+    
+zmìny formátu v textu:
+    -- nejlépe uzavøít do bloku - {\pøíkaz text} 
+    -- velikosti: \tiny, footnotesize, small, normalsize, large, Large, LARGE
+    -- huge,Huge
+    
+vıèty:
+    -- prostøedí enumerate, itemize
+    -- body pomocí item
+    -- vzhled odráek se dá mìnit:
+        -- \item[co za odráku] -- zmìní jednu odráku itemu
+        -- \usepackage{enumerate} -- rozšiøuje monosti prostøedí
+            -- \begin{enumerate}[definice návìstí] -- 1,A,a,i budou rùst 
+                -- {A} rùst nebude 
+    -- description (\item[popisek] popisek u item pøedsazenı)
+
+zmìna zarovnání:
+    -- prostøedí flushleft, flushright, flushcenter
+    
+poznámky pod èarou:
+    -- \footnote{text poznámky}
+    
+------------------------------------------------------------------------------
+
+TABULKY:
+
+prostøedí:
+    -- tabular
+    -- cokoliv uvnitø jsou tabulková data
+    -- \begin{tabular}{spec. zarovnání sloupcù}
+        -- ve spec. musí bıt tolik písmenek jako sloupcù
+        -- l,r,c - right, left, center
+        -- p{sirka} - sloupec s pevnou šíøkou
+    -- data uvádím
+        -- & další buòka
+        -- \\ další øádek
+
+sázení na støed:
+    -- obklopím prostøedím center
+    
+ohranièení
+    -- vodorovná èára \hline mezi øádky
+    -- svislé do specikace: {l|p|c} svislítkem
+    
+sloitìjší tabulky jsou trochu vopruz...
+www.pavelbrozek.com 
+openoffice calc tables to latex ...
+
+------------------------------------------------------------------------------
+
+DOSLOVNÁ SAZBA:
+
+vysázení textu bez interpretace znakù:
+    -- rovnou pøepne do neproporcionálního fontu
+    -- sazba programù -- jsou na to celé balíèky
+    -- prostøedí verbatim
+    -- verbatim* explicitnì ukáe i mezery
+    -- \verb BEZ {} - co kdy je budu chtít vysázet
+        -- \verb.bude sázet verbatim dokud nenajde další teèku.
+        -- místo . mùe kterıkoliv znak
+    -- \texttt pouze neproporcionální font
+    
+    
+------------------------------------------------------------------------------
+
+CVIKO: TABULKY
+
+lepší tabulky - CTAN.org - archiv balíèkù
+    -- booktabs
+        -- ádné vertikální èáry
+        -- tuèné oddìlovací èáry - \toprule \midrule \bottomrule
+            -- jako volitelnı parametr mají tloušku \heavyrulewidth
+    
+    -- buòky pøes více sloupcù (tex to umí normálnì)
+        -- \multicolumn
+    -- buòky pøes více øádkù
+    
+    -- zarovnání podle urèitého znaku (stejné znaky pod sebou v buòkách)
+        -- zarovnání na desetinou teèku, na dvojteèku...
+        -- podvod - jako 2 sloupce
+            -- @{oddìlovaè sloupcù} - pøedefinujeme oddìlovaè sloupcù
+                -- místo 13:4 píšeme 13 & 4
+        -- balíèek dcolumn
+            -- pøidává typ sloupce 
+                D{èím oddìlujeme v texu}{co se má vysázet}{3.3}
+                    -- cifry pøed a za oddìlovaèem
+    
+    
+===========================================================================
+CHYBÍ PØEDNÁŠKA A CVIKO
+
+- SAZBA MATEMATIKY
+základní znaky, rovnice
+
+    -- zaèátek a konec math (jedna monost, víceøádkové)\[     \]
+    -- \qquad ?
+    -- \, malá mazera
+    -- \left. \right\} vysází jen pravou závorku (left se pouøije jen
+        k urèení její velikosti)
+    -- \stackrel{horní popisek}{relace} -- napø. vysvìtlivka nad (rovnítkem)
+
+- VLASTNÍ PØÍKAZY
+
+===========================================================================
+MATEMATIKA DÁLE
+
+úvod
+    -- v øádku mezi $ $ obèas rozlomí (ale taky hnusnì)
+    -- mimo bìnı text $$ $$ nezalamuje, klidnì vyteèe ze stránky
+    -- nutnost sázet na více øádek
+        -- naivnì $$ neco $$ $$ neco jineho $$
+            -- obì vysází na støed, pro LaTeX spolu nijak nesouvisí
+        -- pouití balíèkù
+            -- AMS-LaTeX - kolekce balíèkù pro vylepšení sazby matematiky
+                -- amstext -- kusy textu v math modu \text{}
+                -- amsbsy -- tuèné \boldsymbol{}
+                -- asmopn -- definice vlastních math operátorù
+                -- amsthm -- vylepšenı koncept sazby vìt
+    
+sazba matic
+    -- jen LaTeX
+        -- prostøedí array
+            -- funguje stejnì jako tabulka, akorát v math reimu
+            -- musíme krajní závorky, dle našeho vıbìru
+                -- prostì kolem prostøedí, tím to uzávorkuje celé prostøedí
+    -- lépe AMS
+        -- p(b/B/v/V)matrix -- jako tabulka:
+            --  \begin{pmatrix}
+                  jako tabulka
+                \end{pmatrix}
+            -- jen se neuvádí specifikace sloupcù -- defaultnì na støed
+
+odkazy na rovnice
+    -- \begin{equation} sází rovnici a pøiøadí jí èíslo, s * netiskne èíslo
+
+víceøádkové rovnice s AMS LaTeX
+    -- jakım zpùsobem rozlámat rovnici
+    -- align, gather, multline, split -- opìt s * netiskne èíslo
+    -- musí se øíct, kde má rozlomit - jako tabulka \\
+    -- \\[délka] -- pøífoukne meziøádkovou mezeru o délka
+    -- \notag potlaèí vysázení èísla na konkrétní øádce 
+    -- \tag komplementárnì pøiøadí speciální èíslo/znaèku
+    
+    -- multline
+        -- sazba Jedné dlouhé rovnice
+        -- rovnice dostane pouze jedno èíslo
+        -- první øádek vpravo, prostøedek center, poslední vlevo
+    -- split
+        -- samo nevleze do math prostøedí, musí u v nìm bıt
+        -- nesází èíslo rovnice
+        -- jedna víceøádková rovnice se zarovnáním -- urèit místo, ke kterému se
+            to zarovná (pomocí &)
+    -- gather
+        -- více rovnic bez vzájemného vztahu -- jako více $$ $$...
+        -- kadá rovnice vlastní èíslo
+        -- uprostøed bloku neudìlá stránkovı zlom -- mùe to lámání hodnì ztíit
+        -- moné dìlit splitem uvnitø
+    -- align
+        -- víc vzájemnì zarovnanıch rovnic
+        -- zarovnání opìt pomocí ampersandù
+        -- monost více bodù zarovnání  - lichı & -- místo zarovnání
+                                        - sudı & -- bude další dvojice sloupcù
+                                          k zarovnání (mezera mezi sloupci)
+        -- monost vloit nezarovnanı text, bez zrušení místa zarovnání
+            -- \intertext{vysvìtlující text zarovnanı jako text}
+    -- aligned a gathered
+        -- zaberou pouze tolik místa, jak je širokı jejich obsah 
+    
+    -- subequations
+        -- oèísluje rovnice 2a, 2b, 2c...
+        
+odkazovnání na rovnice
+    -- návìstí, odkaz
+    -- \label{název návìstí - jednoznaèné}
+    -- \ref{název návìstí} -- vytvoøí odkaz
+    -- \label chytne poslední èíslo pøed tímto pøíkazem (musí tam existovat
+        konstrukce pouívající èítaè)
+    -- nutné 2 pøeklady (jako obsah)
+    -- \eqref .. ještì èíslo ozávorkuje (správnì u rovnic)
+    
+víceøádkové indexy
+    -- pø. sumy, intefrály -- obsah sumy odjede dál -- nutnost zápornıch mezer
+    -- \substack{malá tabulka}
+    
+definice vlastních prostøedí
+    -- poznámky, dùsledky...
+    -- \newtheorem -- vlastní pouèkové prostøedí
+        -- {název pouitı v begin nìkde v dokumentu}{co chci vysázet, pø. vìta}
+            -- automatiky pøidá èíslo, automatickı font vìty
+        -- buï {}{}[od èeho se odvozuje èíslování, pø. section -- v rámci sekce]
+            -- automaticky teèková notace -- Vìta 3.1 (sekce 3)
+        -- nebo {}[se kterım prostøedím bude sdílet èítaè ]{}
+            -- 2 a více prostøedí budou inkrementovat stejnı èítaè
+
+
+==================================================================================
+
+BIBLIOGRAPHY, REFERENCE
+
+bibtex
+	-- podno latexu
+	-- nevıhody
+		-- sloitá syntax
+		-- pracnìjší na nauèení
+	-- vıhody
+		-- pokud práce cituje pøedevším matematické zdorje
+			-- monost vkládat do bibtexu z mathSciNetu
+		-- dá se zmìnit sazba
+		-- záznam se dá vyuít nìkolikrát
+	-- na 4 citace se vyplatí to spíše vysázet ruènì
+
+	-- \cite ... NAJíT!!!
+
+==================================================================================
+
+OBRÁZKY
+
+základní dìlení
+	-- vektorové
+		-- škálovatelné, pøesné
+		-- tìko fotky... / mapy...
+	-- bitmapové
+		-- (komprese)
+		-- u grafù apod nejlépe .png
+		-- jpeg jen fotky
+
+jak s tím do latexu
+	-- balíèek graphicx (novìjší, ne graphics)
+	-- volitelnı parametr [backend] - naznaèit mu, do èeho budeme pøekládat
+		-- dvips, pdftex
+	-- ve zdrojovém kódu
+		-- \includegraphics[parametr=hodnota,par2=hod2...]{co vloit}
+		-- parametry scale, width, height, i relativnì vùèi textu
+		-- uvedu-li jen jednu šíøka/vıška, zachová se pomìr stran
+		-- angle (rotace), origin - odkud rotovat
+		-- záleí na poøadí transformací!
+	-- eps je podporovnáno dvips (dvips, ps2pdf)
+	-- png, pdf, jpeg podporuje pdflatex
+
+kreslení pøímo v latexu
+	-- pstricks
+	-- potøebuje pøeklad dvips a pak tepreve do pdf
+
+kreslení pøes sebe
+	-- blíèek overpic
+	-- monost zapnutí møíky
+	-- \put dovolí vloit cokoliv (i text i matematiku)
+
+obrázek jako klovoucí objekt
+	-- uzavøít do prostøedí figure (pak prostì plave v textu)
+	-- figure má volitelné param jako takbulky
+		-- h here
+		-- t top další stránky
+		-- b bottom (kde mu to dovolí)
+		-- p new page
+	-- monost popisku \caption{popisek}(\label)
+
+
+=================================================================
+ 
+ CVIKO LITERATURA
+ 
+\begin{bibliography}
+    -- volitelnı parametr soubor .bib s definicemi
+    -- kouknout na netu na jeho strukturu
+    
+    
+-----------------------------------------------------------------
+
+OBRÁZKY
+
+\includegraphics[width = \textwidth]{6-fjfi.eps}
+
+\begin{figure}...
+
+jak udìlat rámeèky kolem obrázkù
+
+balíèek calc
+    -- v místech zadávání délek zpøístupòuje jednoduchou aritmetiku
+    -- násobky fungují i bez calcu
+    
+\fbox{}
+    -- rámeèek kolem obsahu závorek
+    
+popisek
+    -- \caption hned po includegraphics
+    
+    pø
+        figure           2 obrázky se spoleènı popiskem
+            include 
+            include
+            caption
+        endfigure
+    -- figure ere celou šíøku stránky
+    
+prostøedí minipage
+    -- napøíklad zarovnání obrázkù vedle sebe na horní okraj
+    -- na spodní to jde i bez
+    -- standardnì, pokud se vejdou 2 vedle sebe, vysází se vedle sebe
+        -- to v samotném figure nejde...
+    
+    pø
+        figure
+            minipage[]{šíøka}
+                include caption
+            endminipage
+            minipage[]{šíøka}
+                include caption
+            endminipage
+        endfigure
+    -- 2 obrázky vedle sebe, s vlastními popisky
+            
+ 
+subfigure -- kouknout se
+
+
+==============================================================================
+
+BEAMER
+
+volba vzhledu
+    -- outertheme -- záhlaví, zápatí
+    -- innertheme -- obsah slidu
+    -- colortheme -- barvy
+    -- fonttheme -- fonty, vìtšinou staèí default
+    
+šedá navigaèní tlaèítka
+    -- dole, dají se vypnout
+    
+"balíèky"
+    -- napø. Warsaw -- kombinuje pøedchozí nastavení
+    -- pø.
+        \usetheme{Warsaw}
+        \usecolortheme{crane}
+    -- \alert{} jednoduché zvıraznìní
+    
+vychytávky:
+    -- overlays
+        -- postupné zobrazování
+        -- napøeskáèku...
+        -- nahrazování, zrùrazòování
+        -- nejzákladnìjší: \pause
+            -- lze postupnì i tabulky (po øádcích)
+        -- \onslide<poèítadlo slidù>
+            -- <n> tohle se tıká slidu n
+            -- <n-> od n do konce
+            -- <-n>, <n-m> analogicky
+            -- lze tabulka i po sloupcích
+                -- "napø. ve specifikaci sloupcù"
+        -- \item<stejnì jako onslide>
+        -- jakmile se na slidu pouije nìco sofistikovanìjšího ne \pause
+            je dobré \pause dále nepouívat
+        -- \begin{itemize}[<+->]
+            -- postupnì itemy
+        -- tato spec. nejde pøipojit napø. k prostøedí equation,
+            speciální pøíkaz/prostøedí
+            -- \uncover<>{co}
+            --  \begin{uncoverenv}<>
+                \end{uncoverenv}
+            -- \only, begin{onlyenv}
+                -- na rozdíl od uncover tam prvek reálnì není
+                -- tzn se na nìj ani nevynechá místo, mùe zpùsobovat
+                    skákání
+            -- \invisible
+                -- opak uncover, je tam, kromì specifikovanıch slidù
+            -- \alt<n>{at n}{not at n}
+            -- \temporal<>{pøed}{na}{po}
+        -- pøímo lze dát specifikaci
+            -- item, itemize, alert, block, onslide
+            
+        -- postupné zvırazòování (jde) 
+            -- \item<+- | alert@+> bla
+            -- -//-
+                -- zvırazní vdy jen první zobrazení
+
+        -- frame mùe mít parametr [t]
+            -- místo centrování se sází od vršku
+            
+        -- zašedìní skrytıch prvkù
+            -- \setbeamercovered{transparent}
+                -- standardní (svìtle šedé)
+                -- více moností:
+                -- {highly dynamic}
+                    -- rùznì intenzivnì šedá
+        -- prùbìné zobrazení napø. obsahu (delší prezentace)
+            -- \AtBeginSection{co se má provést na zaèátku sekce}
+            -- napøíklad frame s \tableofcontents[current section]
+                -- zpùsobí zašedìní ostatních sekcí
+        -- \setbeamertemplate{navigation symbols}{které chceme}
+            -- schová navigaci pøi {}
+            
+úvodní stránka:
+    -- \titlepage
+        -- data (v preamble):
+        -- \author, \institute, \title, \date
+            -- volitelné par. tìchto dat se pouijí v zápatí
+            -- napø. pøíliš dlouhı název...
+    -- \tableofcontents
+        
+
+
+ 

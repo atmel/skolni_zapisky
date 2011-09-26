@@ -1,0 +1,30 @@
+Návrhové vzory:
+
+	- obecné øešení èasto se opakující situace
+	- je to obecný návod bez implementace
+	- nejsou to algoritmy, ani knihovny
+
+	- do postupu se dosadí pouze vlastní metody a objekty -- snižujeme poèet chyb!!
+	- dodržují principy OOP -- èistý kód
+	- vzory se uchovávají v katalozích: popis, motivace, pøíklad, struktura, implementace, propojení s ostatními vzory
+
+	- základní struktura:
+		- creational patters
+		- strukturální - lepší èitelnost kódu
+		- chvání
+
+	
+
+- factory method
+	- zabrání uživateli pøístupu pøímo ke konstruktoru
+	- místo toho volá statickou tovární metodu - mùže implementovat singelton...
+	- FM mùže mít vlastní názvy, mùže vracet podtøídu, ne pøímo tøídu jejíž je
+	- umìlé vytvoøení polymorfismu mimo možnosti syntaxe
+
+- singleton
+	- jediná instance, která je vracená tovární metodou
+	- obsahuje statický atribut na vytvoøenou instanci
+
+- visitor	!!!!!!!!!!!!!!! prostudovat!
+	- nestabilní skupina metod
+	- zpùsob, jak rozšíøit pùvodní tøídu bez narušení jejího kódu

@@ -1,0 +1,7 @@
+UMIN
+
+vejnar@utia.cas.cz
+
+Jaké úlohy umělá inteligence řeší.
+
+Nepožadujeme ideální řešení, ale nějaké, které se mu blíží -- suboptimální

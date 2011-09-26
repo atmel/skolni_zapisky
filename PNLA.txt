@@ -1,0 +1,64 @@
+PNLA
+
+numerika
+
+Řešní problémů z praxe:
+
+Reálný problém 
+    |
+    |  <-- chyba modelu
+    V
+matematický popis, model (ODR, PDR)
+    |
+    |  <-- chyba diskretizace (metoda sítí...)
+    V
+Numerický model (algebaické rovnice)
+    |
+    |  <-- chyba linearizace
+    V
+Lineární alg problém (vlastní čísla, inverze matice, soustava...)
+    |
+    |  <-- chyba řešiče, ZAOKROUHLOVACÍ CHYBA
+    V
+Aproximace řešení
+
+
+Tzn zajímá nás nejen řešení, ale i odhad chyby!!
+
+Předmětem NLA je především:
+    -- num. řešení soustav lin. alg. rovnic
+    -- výpočet vl. čísel matic
+    -- řešení problému nejmenších čtverců
+    -- hledání rozkladu matic
+    
+Při výběru metody hraje roli:
+    -- paměťová náročnost
+    -- počet operací
+    -- paralelizace
+    -- odolnost vůči šíření zaokrouhlovacích chyb !!!
+    
+OBSAH:
+    ¤ Citlivost a num. stabilita v NLA
+        -- základní pojmy
+        -- aritmetika s pohyblivou řádovou čárkou
+        -- zaokrouhlovací chyby
+        -- citlivost vl. čísel matic
+        -- citlivost řešení soustav
+    ¤ Algoritmy NLA
+        -- QR rozklad matic
+        -- metody nejmenších čtverců
+        -- Krylovovské metody pro řešení soustav rovnic, vl. čísel
+        
+LITERATURA:
+    Drkošová, Strakoš: Úvod do teorie citlivosti a stability v NLA, čvut, 1997
+    D.S.Watkins: Fundamentals of MAtrix Computations, NY 1991
+    B.N.Parlett: Symmetry Eigenvalues Problem, Prentice Hall, Cliffs 1988
+    G.H.Golnb, C.F.van Loan: Matrix Computations, John Hopkins 1997
+    
+--------------------------------------------------------------------------------
+
+ZÁKLADÍ POJMY:
+
+Citlivost úlohy: 
+    vliv malé změny vstupních dat na výsledek úlohy
+    je to vlastnost samotné úlohy

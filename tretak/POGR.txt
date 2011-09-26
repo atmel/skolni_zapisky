@@ -1,0 +1,16 @@
+saint-paul.fjfi.cvut.cz/POGR
+
+zápoètová práce - programování - zjistit CO!
+
+-------------------------------------------------
+
+POGR2
+
+3D grafika
+
+	realismus x úèelovost
+	triangulace
+
+	konstukce 3D objektù, automatické gnerování
+	geometrické transformace, promítání, viditelnost
+	textury, fyzika (raytracing)

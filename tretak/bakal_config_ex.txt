@@ -1,0 +1,60 @@
+# line comment
+
+
+# examples of filter syntax
+# F5: complete reload of file (reloading image, setup, Structue Elements 
+      and recomputing all filters)
+# F6: reload SE and recompute fiters
+# F7: only recompute filters
+# S - Save image (predefined name + count)
+
+
+# image loads automatically into 0, then 1 and s on.
+# all subsequently loaded images must have the same size and dimension
+# as the first image
+
+>init             # keyword, '>' is reserved, don't use in statements
+
+runon: GPU		    # or run on: CPU
+frame: 3          # mask size = 2*frame + 1
+load: wSPECT.img  # dimension is determined from image extension (.bmp 2, img 3)
+load: xxxx.img    # must have the same properties as wSPECT.img
+
+
+# define SE:
+# defined from top layer to bottom layer, current voxel is in the middle 
+# (vertically and horizontally)
+# using filter will never cause image to shrink (even non-symetric SE)
+
+#............+--- viewing direction for SE definition
+#............|......
+#..........+-|-0-+.. order of dimension is choosed so, that 2D image is in 0x1
+#.........1..V../|..
+#......../...../.|..
+#.......+-----+..|..
+#.......|.....|..+..
+#.......2.....|./...
+#.......|.....|/....
+#.......+-----+.....
+#...................
+
+>structureelements  # keyword
+
+cube26: cube(3)     # SE creation by function (contains only 1s,0s)
+sph: sphere()       # same
+
+se1:                # SE explicit definition 
+	0 0 0 | 0 0 0 | 0 0 0	# top | middle | bottom
+	0 0 0 | 0 1 1 | 0 1 1
+	0 0 0 | 0 1 1 | 0 1 1
+
+
+# general filters:
+# each line must contain 1 function
+ 
+# fiter syntax
+1 = 0 - close(0,cube26)
+2 = open(0,cube26) - 0
+0 = 1 + 2
+
+
