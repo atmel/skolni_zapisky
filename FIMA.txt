@@ -70,3 +70,42 @@ dožití:
     střídmost rozhodně pomáhá
     kastrace    
     
+    
+==============================================================================
+
+p_x + q_x = 1
+
+Model pro skupiny (dále už ne) -- 2 osoby
+
+    q_xy = q_x * q_y  --- pravděpodobnost nedožití obou
+
+    q_xy = 1 - p_x * p_y
+
+    tímto se však můžeme zabývat jako jedním jedincem...
+    
+
+Vícestavové pojištění:
+
+    -- krom stavů živý, mrtvý, máme ještě např. invaliditu
+    -- př. za invaliditu je považována ztráta dvou končetin, přičemž
+        každé oko a sluch se považuje za další končetinu
+    -- nebo se používá státní definice invalidity
+        
+    q_ax -- pravd. úmrtí aktivního člověka
+    q_ix -- pravd. úmrtí invalidního člověka
+    i_x -- pravd. invalidity
+    r_x -- pravd. reaktivace
+    
+
+Měsíční pravděpodobnosti:
+
+    (1/12)_q_x          -- pravd. úmrtí x-letého v násl. měsíci
+    (1/12)_q_(x+1/12)   -- pravd. úmrtí x-letého v násl. dvou měsících **
+    
+    -- vztah těchto dvou pravděpodobností?
+    
+    ** = 1 - 1/12_p_x+1/12 = {podmíněná pravd. dožiju se konce druhého za
+    předpokladu dožití se koce prvního} 1 - (2/12_p_x)/(1/12_p_x)
+    = 1 - (1-q...)/(1-q...) = {předpoklad linearity} = 
+    
+    1 - (1 - 2/12 q_x)/(1 - 1/12 q_x)    
