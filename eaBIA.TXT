@@ -1,0 +1,7 @@
+applety na EA
+http://www.obitko.com/tutorials/genetic-algorithms/example-function-minimum.php
+
+výhody dvoubodového křížení
+- menší pravděpodobnost rozbíjení stavebních bloků rozprostřených v genomu
+
+příklad implementace v C...

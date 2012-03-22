@@ -1,3 +1,69 @@
 SWP
 
 projít si wicket a bimbo
+
+
+------------------------------------
+
+war soubor -- něco jako .zip 
+    -- obsahuje data potřebná k běhu aplikace
+    -- nasadit do webserveru -- apache, jetty, jBoss, Glassfish, Websphere...
+        - deployment waru
+    
+    -- spouštění v jetty:
+        project -- properties -- actions -- run project:
+        do Goal: jetty:run     
+            (mavenovský příkaz pro deployment do jetty, v pom 
+            je mavenovský plugin pro jetty, jedná se o lokální spouštění, ne pro
+            deploy)
+            
+            
+----------
+
+test driven development -- napřed píši test, až pak metodu!!
+
+v javě JUnit package
+
+testy k třídám/metodám mám ve stejném package jako samotné třídy/metody
+
+ve wicketu se testy spoušít už v buildu -- proto asserty, je možné si spustit 
+test odděleně: run -- test file (spustí na konkrétní otevřenou třídu)
+
+------------------------
+
+extrémní prog:
+
+Jako ...
+potřebuji ...
+protože ... 
+("user-story")
+
+holá verze, pozlátka...
+-- agile developement
+ohodnotí se to BV (bussiness value) a pak se (sestupně) řeší
+
+
+===============================================================================
+
+FJFI protest
+
+ -- stránka pro vstup řešení úlohy
+ -- překlad
+ -- spuštění kódu a sběr stdout, stderr, případně textového souboru
+ -- vyhodnocení shody alg. studenta s referenčním algoritmem
+ 
+ "bonus":
+ -- archivace výsledků, vstupů studentů
+ -- autentizace
+ 
+ 
+ 
+==========================================================================
+ 
+JAVA
+
+@anotace
+    -- tři typy cca: "RetentionPolicy":
+        pro kompilaci (souce), pro dokumentaci, pro runtime - dosažitelná přes
+        reflexi
+    -- např hibernate -- knihovna pro databázi používající anotace
